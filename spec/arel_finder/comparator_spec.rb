@@ -1,0 +1,39 @@
+require_relative "../helper"
+
+describe ArelFinder::Comparator do
+  subject { ArelFinder::Comparator.new(finder, table[:name]) }
+  let(:finder) { ArelFinder::Finder.new(table) }
+  let(:table) { Person.arel_table }
+
+  it 'should be able to find by equality' do
+    (subject == 'foo').should be_a_kind_of(ArelFinder::Finder)
+    (subject == 'foo').arel.should be_equivalent_to(table[:name].eq('foo'))
+  end
+
+  it 'should be able to find by inequality' do
+    (subject != 'foo').arel.should be_equivalent_to(table[:name].not_eq('foo'))
+  end
+
+  it 'should be able to verify if an attribute is nil' do
+    (subject.nil?).arel.should be_equivalent_to(table[:name].eq(nil))
+  end
+
+  it 'should be able to find by greater than' do
+    (subject > 'foo').arel.should be_equivalent_to table[:name].gt('foo')
+    (subject >= 'foo').arel.should be_equivalent_to table[:name].gteq('foo')
+  end
+
+  it 'should be able to find by lower than' do
+    (subject < 'foo').arel.should be_equivalent_to table[:name].lt('foo')
+    (subject <= 'foo').arel.should be_equivalent_to table[:name].lteq('foo')
+  end
+
+  it 'should be able to find IN' do
+    subject.in?(['foo']).arel.should be_equivalent_to table[:name].in(['foo'])
+  end
+
+  it 'should be able to find with LIKE' do
+    (subject =~ 'foo').arel.should be_equivalent_to table[:name].matches('foo')
+    (subject !~ 'foo').arel.should be_equivalent_to table[:name].does_not_match('foo')
+  end
+end
