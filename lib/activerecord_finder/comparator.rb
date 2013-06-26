@@ -1,4 +1,4 @@
-module ArelFinder
+module ActiveRecordFinder
   class Comparator
     def initialize(finder, field)
       @finder = finder

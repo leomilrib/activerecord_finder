@@ -1,6 +1,6 @@
 require_relative "../helper"
 
-describe ArelFinder::Where do
+describe ActiveRecordFinder::Where do
   let!(:bar) { Person.create! :name => 'Bar', :age => 17 }
   let!(:seventeen) { Person.create! :name => 'Foo', :age => 17 }
   let!(:eighteen) { Person.create! :name => 'Foo', :age => 18 }

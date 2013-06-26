@@ -3,13 +3,13 @@
 require 'rake'
 
 Gem::Specification.new do |s|
-  s.name = "arel_finders"
+  s.name = "activerecord_finder"
   s.version = "0.1.0"
   s.author = "Maurício Szabo"
   s.email = "mauricio.szabo@gmail.com"
   s.homepage = "http://github.com/mauricioszabo/arel_operators"
   s.platform = Gem::Platform::RUBY
-  s.summary = "Operators (|, &, -) for ActiveRecord."
+  s.summary = "Better finder syntax (|, &, >=, <=) for ActiveRecord."
   s.files = FileList["{lib}/**/*"].to_a
   s.require_path = "lib"
   s.test_files = FileList["{spec}/**/*spec.rb"].to_a

@@ -1,12 +1,12 @@
 require_relative "../helper"
 
-describe ArelFinder::Comparator do
-  subject { ArelFinder::Comparator.new(finder, table[:name]) }
-  let(:finder) { ArelFinder::Finder.new(table) }
+describe ActiveRecordFinder::Comparator do
+  subject { ActiveRecordFinder::Comparator.new(finder, table[:name]) }
+  let(:finder) { ActiveRecordFinder::Finder.new(table) }
   let(:table) { Person.arel_table }
 
   it 'should be able to find by equality' do
-    (subject == 'foo').should be_a_kind_of(ArelFinder::Finder)
+    (subject == 'foo').should be_a_kind_of(ActiveRecordFinder::Finder)
     (subject == 'foo').arel.should be_equivalent_to(table[:name].eq('foo'))
   end
 

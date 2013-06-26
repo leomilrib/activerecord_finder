@@ -1,4 +1,4 @@
-module ArelFinder
+module ActiveRecordFinder
   module Where
     def where(*args, &block)
       args << nil if args.size == 0
@@ -10,7 +10,7 @@ module ArelFinder
     end
 
     def new_finder(&block)
-      arel_finder = ArelFinder::Finder.new(arel_table)
+      arel_finder = ActiveRecordFinder::Finder.new(arel_table)
       if block.arity == 1
         block.call(arel_finder)
       else

@@ -1,7 +1,7 @@
 require_relative "../helper"
 
-describe ArelFinder::Finder do
-  subject { ArelFinder::Finder.new(table) }
+describe ActiveRecordFinder::Finder do
+  subject { ActiveRecordFinder::Finder.new(table) }
   let(:table) { Person.arel_table }
 
   it 'should return a empty arel if not being able to convert' do

@@ -1,4 +1,4 @@
-module ArelFinder
+module ActiveRecordFinder
   class Finder
     attr_reader :table, :arel
 
