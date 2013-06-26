@@ -1,16 +1,12 @@
 module ArelFinder
   module Where
     def where(*args, &block)
-      if block
-        from_block = super(new_finder(&block).arel) if block
-        if args.size > 0
-          from_block.where(*args)
-        else
-          from_block
-        end
-      else
-        super
-      end
+      args << nil if args.size == 0
+      scoped = super
+      return scoped if block.nil?
+
+      from_block = super(new_finder(&block).arel) if block
+      scoped.merge(from_block)
     end
 
     def new_finder(&block)
