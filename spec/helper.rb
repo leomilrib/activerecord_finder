@@ -1,6 +1,6 @@
 require "sqlite3"
 require "active_record"
-require_relative "../lib/arel_finder"
+require_relative "../lib/activerecord_finder"
 
 ActiveRecord::Base.establish_connection(
   'adapter' => 'sqlite3',

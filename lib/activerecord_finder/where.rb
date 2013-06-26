@@ -1,20 +1,21 @@
 module ActiveRecordFinder
   module Where
-    def where(*args, &block)
-      args << nil if args.size == 0
-      scoped = super
-      return scoped if block.nil?
-
-      from_block = super(new_finder(&block).arel) if block
-      scoped.merge(from_block)
+    def restrict(finder = nil, &block)
+      raise ArgumentError, 'wrong number of arguments (0 for 1)' if block.nil? && finder.nil?
+      if block
+        where(new_finder(&block).arel)
+      else
+        where(finder.arel)
+      end
     end
+    alias :condition :restrict
 
     def new_finder(&block)
-      arel_finder = ActiveRecordFinder::Finder.new(arel_table)
+      activerecord_finder = ActiveRecordFinder::Finder.new(arel_table)
       if block.arity == 1
-        block.call(arel_finder)
+        block.call(activerecord_finder)
       else
-        arel_finder.instance_eval(&block)
+        activerecord_finder.instance_eval(&block)
       end
     end
   end

@@ -10,28 +10,24 @@ describe ActiveRecordFinder::Where do
   end
 
   it 'finds using a block with one parameter' do
-    result = Person.where { |p| (p.name == 'Foo') & (p.age > 17) }
+    result = Person.restrict { |p| (p.name == 'Foo') & (p.age > 17) }
     result.should == [eighteen]
   end
 
   it 'finds using a block with no parameters' do
-    result = Person.where { (name == 'Foo') & (age > 17) }
+    result = Person.restrict { (name == 'Foo') & (age > 17) }
     result.should == [eighteen]
-  end
-
-  it 'finds using a condition too' do
-    result = Person.where(:age => 17) { name == 'Foo' }
-    result.should == [seventeen]
   end
 
   it 'concatenates conditions' do
     finder1 = Person.new_finder { age == 17 }
     finder2 = Person.new_finder { name == "Foo" }
-    result = Person.where((finder1 & finder2).arel)
+    result = Person.restrict(finder1 & finder2)
     result.should == [seventeen]
   end
 
   it 'concatenates arel conditions' do
+    pending
     finder1 = Person.where(name: "Foo").arel
     finder2 = Person.new_finder { age == 17 }
     result = Person.where((finder2 & finder1).arel)
