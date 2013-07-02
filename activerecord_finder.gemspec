@@ -14,6 +14,6 @@ Gem::Specification.new do |s|
   s.require_path = "lib"
   s.test_files = FileList["{spec}/**/*spec.rb"].to_a
   s.has_rdoc = true
-  s.extra_rdoc_files = ["README"]
+  s.extra_rdoc_files = ["README.md"]
   s.add_dependency("activerecord", ">= 3.2")
 end
