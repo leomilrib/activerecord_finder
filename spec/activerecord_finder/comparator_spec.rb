@@ -28,8 +28,13 @@ describe ActiveRecordFinder::Comparator do
     (subject <= 'foo').arel.should be_equivalent_to table[:name].lteq('foo')
   end
 
-  it 'should be able to find IN' do
+  it 'finds with IN' do
     subject.in?(['foo']).arel.should be_equivalent_to table[:name].in(['foo'])
+  end
+
+  it 'finds with subselects' do
+    result = subject.in?(Person.where(age: 10))
+    result.arel.to_sql.should match(/select/i)
   end
 
   it 'should be able to find with LIKE' do

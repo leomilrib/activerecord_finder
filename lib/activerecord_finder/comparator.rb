@@ -16,13 +16,18 @@ module ActiveRecordFinder
       self == nil
     end
 
+    def in?(other)
+      other = other.arel if other.respond_to?(:arel)
+      arel_clause =  @field.in(other)
+      Finder.new(@finder.table, arel_clause)
+    end
+
     convert_to_arel :==, :eq
     convert_to_arel '!=', :not_eq
     convert_to_arel :>, :gt
     convert_to_arel :>=, :gteq
     convert_to_arel :<, :lt
     convert_to_arel :<=, :lteq
-    convert_to_arel :in?, :in
     convert_to_arel :=~, :matches
     convert_to_arel '!~', :does_not_match
   end
