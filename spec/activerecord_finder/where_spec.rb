@@ -26,13 +26,11 @@ describe ActiveRecordFinder::Where do
     result.should == [seventeen]
   end
 
-  it 'concatenates arel conditions' do
-    pending
-    finder1 = Person.where(name: "Foo").arel
-    finder2 = Person.new_finder { age == 17 }
-    result = Person.where((finder2 & finder1).arel)
-    result.should == [seventeen]
-    result = Person.where((finder1 & finder2).arel)
-    result.should == [seventeen]
+  it 'concatenates scoped conditions' do
+    boo = Person.create!(name: "Boo", age: 17)
+    person = Person.where(age: 17).where('name LIKE ?', 'B%')
+    new_finder = person.new_finder { name == 'Boo' }
+    result = Person.restrict(new_finder)
+    result.should == [boo]
   end
 end
