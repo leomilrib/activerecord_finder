@@ -4,7 +4,7 @@ require 'rake'
 
 Gem::Specification.new do |s|
   s.name = "activerecord_finder"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
   s.author = "Maurício Szabo"
   s.email = "mauricio.szabo@gmail.com"
   s.homepage = "http://github.com/mauricioszabo/arel_operators"

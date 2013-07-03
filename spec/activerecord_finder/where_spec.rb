@@ -33,4 +33,10 @@ describe ActiveRecordFinder::Where do
     result = Person.restrict(new_finder)
     result.should == [boo]
   end
+
+  it 'creates a new finder without a block, using only current scope' do
+    person = Person.where(age: 17).where('name LIKE ?', 'B%')
+    new_finder = person.new_finder
+    Person.restrict(new_finder).should == [bar]
+  end
 end

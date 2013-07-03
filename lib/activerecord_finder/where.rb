@@ -11,9 +11,12 @@ module ActiveRecordFinder
     alias :condition :restrict
 
     def new_finder(&block)
-      finder = create_finder(&block)
       scoped_where = scoped.arel.where_clauses.map { |w| Arel.sql(w) }
-      arel = Arel::Nodes::And.new([*scoped_where, finder.arel])
+      if block
+        finder = create_finder(&block)
+        scoped_where << finder.arel
+      end
+      arel = Arel::Nodes::And.new(scoped_where)
       ActiveRecordFinder::Finder.new(arel_table, arel)
     end
 
