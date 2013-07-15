@@ -19,6 +19,7 @@ module ActiveRecordFinder
       arel = Arel::Nodes::And.new(scoped_where)
       ActiveRecordFinder::Finder.new(arel_table, arel)
     end
+    alias :to_finder :new_finder
 
     def create_finder(&block)
       activerecord_finder = ActiveRecordFinder::Finder.new(arel_table)
