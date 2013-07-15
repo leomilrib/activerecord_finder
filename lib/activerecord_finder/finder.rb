@@ -8,6 +8,10 @@ module ActiveRecordFinder
       @table.columns.each { |a| define_attribute_method a }
     end
 
+    def [](attribute)
+      send(attribute)
+    end
+
     def define_attribute_method(arel_attribute)
       singleton_class.send :define_method, arel_attribute.name do
         Comparator.new(self, arel_attribute)
