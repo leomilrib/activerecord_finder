@@ -22,6 +22,12 @@ module ActiveRecordFinder
       Finder.new(@finder.table, arel_clause)
     end
 
+    def not_in?(other)
+      other = other.arel if other.respond_to?(:arel)
+      arel_clause =  @field.not_in(other)
+      Finder.new(@finder.table, arel_clause)
+    end
+
     convert_to_arel :==, :eq
     convert_to_arel '!=', :not_eq
     convert_to_arel :>, :gt
