@@ -18,6 +18,13 @@ class Address < ActiveRecord::Base
   belongs_to :person
 end
 
+RSpec.configure do |c|
+  c.after do
+    Address.delete_all
+    Person.delete_all
+  end
+end
+
 #class String
 #  def select_clauses
 #    scan(/select/i)
