@@ -41,4 +41,14 @@ describe ActiveRecordFinder::SetOperations do
     relation2 = Person.where(age: 18)
     relation1.subtract(relation2).should == [seventeen]
   end
+
+  it 'SUBTRACTs a relation from this one, using another fields' do
+    bar = Person.create! name: "Bar", age: 17
+    Address.create! address: "Foo"
+
+    relation1 = Person.where(age: 17)
+    relation2 = Address.where(address: "Foo")
+
+    relation1.subtract(relation2, :name, :address).should == [bar]
+  end
 end
