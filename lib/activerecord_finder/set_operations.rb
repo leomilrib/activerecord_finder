@@ -13,8 +13,10 @@ module ActiveRecordFinder
       if field_self.nil?
         where(primary_key => other)
       else
-        field = other.scoped.arel_table[field_other]
-        where(field_self => other.select(field))
+        if field_other.is_a?(Symbol)
+          field_other = other.scoped.arel_table[field_other]
+        end
+        where(field_self => other.select(field_other))
       end
     end
 
