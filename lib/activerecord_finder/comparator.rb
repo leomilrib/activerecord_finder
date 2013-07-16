@@ -28,6 +28,11 @@ module ActiveRecordFinder
       Finder.new(@finder.table, arel_clause)
     end
 
+    def size
+      Comparator.new(@finder, @field.count)
+    end
+    alias :count :size
+
     convert_to_arel :==, :eq
     convert_to_arel '!=', :not_eq
     convert_to_arel :>, :gt

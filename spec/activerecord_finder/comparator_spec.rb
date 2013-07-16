@@ -45,4 +45,8 @@ describe ActiveRecordFinder::Comparator do
     (subject =~ 'foo').arel.should be_equivalent_to table[:name].matches('foo')
     (subject !~ 'foo').arel.should be_equivalent_to table[:name].does_not_match('foo')
   end
+
+  it 'is able to find with COUNT' do
+    (subject.size == 10).arel.should be_equivalent_to table[:name].count.eq(10)
+  end
 end

@@ -9,8 +9,8 @@ describe ActiveRecordFinder::Finder do
   end
 
   it 'should not calculate equality' do
-    proc { subject == subject }.should raise_error(NoMethodError)
-    proc { subject != subject }.should raise_error(NoMethodError)
+    -> { subject == subject }.should raise_error(NoMethodError)
+    -> { subject != subject }.should raise_error(NoMethodError)
   end
 
   it 'should be able to "or" two conditions' do
