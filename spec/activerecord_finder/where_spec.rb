@@ -39,4 +39,16 @@ describe ActiveRecordFinder::Where do
     new_finder = person.new_finder
     Person.restrict(new_finder).should == [bar]
   end
+
+  it 'finds using fields from other tables' do
+    seventeen.addresses.create! address: "Seventeen Road"
+    eighteen.addresses.create! address: "Eighteen Road"
+
+    result = Person.joins(:addresses).restrict(
+      Person.new_finder_with(:addresses) { |_, a| a.address =~ 'Eighteen%' })
+    result.should == [eighteen]
+
+    result = Person.joins(:addresses).restrict_with(:addresses) { |_, a| a.address =~ 'Seventeen%' }
+    result.should == [seventeen]
+  end
 end
