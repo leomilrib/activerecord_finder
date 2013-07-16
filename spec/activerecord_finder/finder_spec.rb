@@ -29,4 +29,9 @@ describe ActiveRecordFinder::Finder do
     result = subject.name == 'foo'
     (!result).arel.should be_equivalent_to Arel::Nodes::Not.new(table[:name].eq('foo'))
   end
+
+  it 'finds by custom attributes defined in SELECT clause' do
+    result = subject.custom == "Foo"
+    result.arel.should be_equivalent_to table[:custom].eq("Foo")
+  end
 end

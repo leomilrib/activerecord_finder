@@ -9,12 +9,12 @@ module ActiveRecordFinder
     end
 
     def [](attribute)
-      send(attribute)
+      Comparator.new(self, @table[attribute])
     end
 
     def define_attribute_method(arel_attribute)
       singleton_class.send :define_method, arel_attribute.name do
-        Comparator.new(self, arel_attribute)
+        self[arel_attribute.name]
       end
     end
     private :define_attribute_method
@@ -34,5 +34,10 @@ module ActiveRecordFinder
     end
 
     undef_method :==
+
+    def method_missing(method, *args, &b)
+      super if args.size != 0 || b
+      self[method]
+    end
   end
 end
