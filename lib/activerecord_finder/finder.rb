@@ -5,7 +5,7 @@ module ActiveRecordFinder
     def initialize(arel_table, operation=nil)
       @table = arel_table
       @arel = operation
-      @table.columns.each { |a| define_attribute_method a }
+      @table.columns.each { |a| define_attribute_method a } rescue nil
     end
 
     def [](attribute)

@@ -1,5 +1,7 @@
 module ActiveRecordFinder
   class Comparator
+    attr_reader :field
+
     def initialize(finder, field)
       @finder = finder
       @field = field
@@ -7,6 +9,7 @@ module ActiveRecordFinder
 
     def self.convert_to_arel(operation, arel_method)
       define_method(operation) do |other|
+        other = other.field if other.respond_to?(:field)
         arel_clause =  @field.send(arel_method, other)
         Finder.new(@finder.table, arel_clause)
       end

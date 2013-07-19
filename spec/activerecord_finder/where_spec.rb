@@ -51,4 +51,12 @@ describe ActiveRecordFinder::Where do
     result = Person.joins(:addresses).restrict_with(:addresses) { |_, a| a.address =~ 'Seventeen%' }
     result.should == [seventeen]
   end
+
+  it 'finds by multiple tables or aliases' do
+    finder = Person.new_finder_with(:custom) { |p, c| p.id == c.id }
+
+    people_table = Arel::Table.new(:people)
+    custom_table = Arel::Table.new(:custom)
+    finder.arel.should be_equivalent_to(people_table[:id].eq(custom_table[:id]))
+  end
 end
