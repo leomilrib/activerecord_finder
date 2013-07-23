@@ -114,7 +114,7 @@ admin_roles = roles.joins(:users).merge(admins)
 
 #Finding without "merge" (but you cannot use "scopes" in this case,
 #nor use the block syntax without variables)
-admin_roles = Role.restrict_with(:users) do |role, user| 
+admin_roles = Role.joins(:users).restrict_with(:users) do |role, user| 
   (role.name != "top secret administrative stuff") & (user.admin == true) 
 end
 
