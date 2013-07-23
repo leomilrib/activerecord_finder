@@ -49,4 +49,10 @@ describe ActiveRecordFinder::Comparator do
   it 'is able to find with COUNT' do
     (subject.size == 10).arel.should be_equivalent_to table[:name].count.eq(10)
   end
+
+  it 'finds with LOWER or UPPER' do
+    (subject.lower == "foo").arel.should be_equivalent_to table[:name].lower.eq('foo')
+    (subject.upper == "foo").arel.should be_equivalent_to(
+      Arel::Nodes::NamedFunction.new("UPPER", [table[:name]]).eq('foo'))
+  end
 end

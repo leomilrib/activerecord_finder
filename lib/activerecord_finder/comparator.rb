@@ -36,6 +36,14 @@ module ActiveRecordFinder
     end
     alias :count :size
 
+    def lower
+      Comparator.new(@finder, @field.lower)
+    end
+
+    def upper
+      Comparator.new(@finder, Arel::Nodes::NamedFunction.new("UPPER", [@field]))
+    end
+
     convert_to_arel :==, :eq
     convert_to_arel '!=', :not_eq
     convert_to_arel :>, :gt
