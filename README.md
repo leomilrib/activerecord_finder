@@ -29,7 +29,8 @@ so you can use ActiveRecord::Base#restrict with a block to construct your querie
 
 ## ActiveRecord's Finders
 
-Integrating with ActiveRecord, it is possible to use `restrict` to find records on a ActiveRecord object. The syntax is quite simple:
+Integrating with ActiveRecord, it is possible to use `restrict` to find records on a ActiveRecord object. The syntax is quite simple (Please note that because of operator precedence in Ruby, we must add a parenthesis over the comparission before using `&` or `|`):
+
 
 ```ruby
 User.restrict { |f| f.age > 18 }
@@ -73,7 +74,20 @@ User.restrict do
 end
 ```
 
-Plase note that because of operator precedence in Ruby, we must add a parenthesis over the comparission before using `&` or `|`.
+Please note that we can't use instance variables if we use the block syntax without a variable. This is a Ruby's limitation, not ActiveRecord Finder's one.
+
+```ruby
+class Foo
+  def initialize
+    @name = "Bar"
+  end
+  
+  def find_all
+    User.restrict { name == @name } #Doesn't work - @name is nil
+    User.restrict { |u| u.name == @name } #Works!
+  end
+end
+```
 
 ## Constructing Queries
 
@@ -90,6 +104,27 @@ end
 
 ### Using "joins"
 
-To be simple, the `Finder` simply has the attributes from the table that it was created. So, to be able to find a record using attributes from one of the joined tables, it is possible to use `ActiveRecord::Base#merge` 
+To be simple, the `Finder` simply has the attributes from the table that it was created. So, to be able to find a record using attributes from one of the joined tables, it is possible to use `ActiveRecord::Base#merge`. If it's absolutely necessary, we could use `restrict_with` or `new_finder_with` to construct queries that uses fields from another tables (or table aliases). For example, consider the following examples:
 
-##
+```ruby
+#Finding user's roles for specific users
+admins = User.admins #(or User.where(admin: true) or User.restrict { admin == true }
+roles = Role.restrict { name != "top secret administrative stuff" }
+admin_roles = roles.joins(:users).merge(admins)
+
+#Finding without "merge" (but you cannot use "scopes" in this case,
+#nor use the block syntax without variables)
+admin_roles = Role.restrict_with(:users) do |role, user| 
+  (role.name != "top secret administrative stuff") & (user.admin == true) 
+end
+
+#Finding using a "table alias" or some other thing
+table = User.where(name: "Foo").as('alias')
+User.from([User.arel_table, table]).restrict_with(:alias) do |user, table|
+  user.id == table.id
+end
+#Will produce the query:
+#SELECT `users`.* 
+#FROM `users`, (SELECT `users`.* FROM `users`  WHERE `users`.`name` = 'Foo') alias  
+#WHERE `users`.`id` = `alias`.`id`
+```
