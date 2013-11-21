@@ -1,5 +1,10 @@
 module ActiveRecordFinder
   module SetOperations
+    def self.counter
+      @counter ||= 0
+      @counter = (@counter + 1) % 9_000
+    end
+
     def unite_with(other)
       if arel_table.name != other.arel_table.name
         raise ArgumentError, "can't operate on different tables"
@@ -13,16 +18,15 @@ module ActiveRecordFinder
     end
 
     def intersect_with(other, field_self=nil, field_other=nil)
-      field_other ||= field_self
+      other_table = other.respond_to?(:arel) ? other.arel : other
+      other_table = other_table.as("alias_#{SetOperations.counter}")
 
-      if field_self.nil?
-        where(primary_key => other)
-      else
-        if field_other.is_a?(Symbol)
-          field_other = other.scoped.arel_table[field_other]
-        end
-        where(field_self => other.select(field_other))
-      end
+      field_other ||= field_self
+      field_self ||= primary_key
+      field_other ||= other.primary_key
+
+      self_table = as(arel.froms[0].name)
+      unscoped.from([self_table, other_table]).where(field_self => other_table[field_other])
     end
 
     def subtract(other, field_self=nil, field_other=nil)
