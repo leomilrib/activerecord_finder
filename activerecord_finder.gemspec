@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.has_rdoc          = true
   s.extra_rdoc_files  = ["README.md"]
 
-  s.add_dependency("activerecord", "3.2")
+  s.add_dependency("activerecord")
 
   s.add_development_dependency("rspec")
   s.add_development_dependency("sqlite3")
