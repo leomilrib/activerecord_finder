@@ -1,4 +1,4 @@
-require_relative "../helper"
+require "spec_helper"
 
 describe ActiveRecordFinder::Where do
   let!(:bar) { Person.create! :name => 'Bar', :age => 17 }

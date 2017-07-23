@@ -1,4 +1,4 @@
-require_relative "../helper"
+require "spec_helper"
 
 describe ActiveRecordFinder::Finder do
   subject { ActiveRecordFinder::Finder.new(table) }

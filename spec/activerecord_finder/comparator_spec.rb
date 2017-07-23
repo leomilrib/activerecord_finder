@@ -1,4 +1,4 @@
-require_relative "../helper"
+require "spec_helper"
 
 describe ActiveRecordFinder::Comparator do
   subject { ActiveRecordFinder::Comparator.new(finder, table[:name]) }

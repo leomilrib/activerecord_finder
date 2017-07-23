@@ -1,4 +1,4 @@
-Arel Finders
+Arel Finders [![Build Status](https://semaphoreci.com/api/v1/leomilrib/activerecord_finder/branches/master/badge.svg)](https://semaphoreci.com/leomilrib/activerecord_finder)
 ============
 
 The problem with ActiveRecord today is that there is no way to

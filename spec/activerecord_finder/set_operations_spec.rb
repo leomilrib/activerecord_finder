@@ -1,4 +1,4 @@
-require_relative "../helper"
+require "spec_helper"
 
 describe ActiveRecordFinder::SetOperations do
   let!(:seventeen) { Person.create! :name => 'Foo', :age => 17 }
