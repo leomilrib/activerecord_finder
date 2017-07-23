@@ -34,7 +34,7 @@ RSpec::Matchers.define :be_equivalent_to do |arel|
     arel.to_sql == match.to_sql
   end
 
-  failure_message_for_should do |match|
+  failure_message do |match|
     <<~MSG
       The two AREL objects are not equivalent.
       First is:
