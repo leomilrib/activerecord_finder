@@ -7,7 +7,7 @@ describe ActiveRecordFinder::SetOperations do
   it 'UNIONs two relations' do
     relation1 = Person.where(age: 17)
     relation2 = Person.where(age: 18)
-    relation1.unite_with(relation2).should include(seventeen, eighteen)
+    expect(relation1.unite_with(relation2)).to include(seventeen, eighteen)
   end
 
   it 'UNIONs two relations with JOIN' do
@@ -17,29 +17,29 @@ describe ActiveRecordFinder::SetOperations do
     relation2 = Person.where(age: 18)
 
     result = relation1.unite_with(relation2)
-    result.should include(seventeen_with_join, eighteen)
-    result.should_not include(seventeen)
+    expect(result).to include(seventeen_with_join, eighteen)
+    expect(result).not_to include(seventeen)
   end
 
   it 'INTERSECTs two relations' do
     bar = Person.create!(name: "Bar", age: 17)
     relation1 = Person.where(age: 17)
     relation2 = Person.where(name: "Foo")
-    relation1.intersect_with(relation2).should == [seventeen]
+    expect(relation1.intersect_with(relation2)).to eq([seventeen])
   end
 
   it 'INTERSECTs two relations using another fields and another tables' do
     seventeen_bar = Person.create!(name: "Bar", age: 17)
     relation1 = Person.where(age: 17)
     relation2 = Person.where(name: "Foo")
-    relation1.intersect_with(relation2, :age).should include(seventeen_bar, seventeen)
-    relation1.intersect_with(relation2, :age).should_not include(eighteen)
+    expect(relation1.intersect_with(relation2, :age)).to include(seventeen_bar, seventeen)
+    expect(relation1.intersect_with(relation2, :age)).not_to include(eighteen)
   end
 
   it 'SUBTRACTs a relation from this one' do
     relation1 = Person.where(name: "Foo")
     relation2 = Person.where(age: 18)
-    relation1.subtract(relation2).should == [seventeen]
+    expect(relation1.subtract(relation2)).to eq([seventeen])
   end
 
   it 'SUBTRACTs a relation from this one, using another fields' do
@@ -49,6 +49,6 @@ describe ActiveRecordFinder::SetOperations do
     relation1 = Person.where(age: 17)
     relation2 = Address.where(address: "Foo")
 
-    relation1.subtract(relation2, :name, :address).should == [bar]
+    expect(relation1.subtract(relation2, :name, :address)).to eq([bar])
   end
 end
