@@ -16,22 +16,26 @@ describe ActiveRecordFinder::Finder do
   it 'should be able to "or" two conditions' do
     c1 = table[:id].eq(1)
     c2 = table[:name].eq(2)
+
     expect(((subject.id == 1) | (subject.name == 2)).arel).to be_equivalent_to c1.or(c2)
   end
 
   it 'should be able to "and" two conditions' do
     c1 = table[:id].eq(1)
     c2 = table[:name].eq(2)
+
     expect(((subject[:id] == 1) & (subject[:name] == 2)).arel).to be_equivalent_to c1.and(c2)
   end
 
   it 'should be able to negate the find' do
     result = subject.name == 'foo'
+
     expect((!result).arel).to be_equivalent_to Arel::Nodes::Not.new(table[:name].eq('foo'))
   end
 
   it 'finds by custom attributes defined in SELECT clause' do
     result = subject.custom == "Foo"
+
     expect(result.arel).to be_equivalent_to table[:custom].eq("Foo")
   end
 end

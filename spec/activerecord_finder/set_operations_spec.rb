@@ -7,6 +7,7 @@ describe ActiveRecordFinder::SetOperations do
   it 'UNIONs two relations' do
     relation1 = Person.where(age: 17)
     relation2 = Person.where(age: 18)
+
     expect(relation1.unite_with(relation2)).to include(seventeen, eighteen)
   end
 
@@ -17,6 +18,7 @@ describe ActiveRecordFinder::SetOperations do
     relation2 = Person.where(age: 18)
 
     result = relation1.unite_with(relation2)
+
     expect(result).to include(seventeen_with_join, eighteen)
     expect(result).not_to include(seventeen)
   end
@@ -25,6 +27,7 @@ describe ActiveRecordFinder::SetOperations do
     bar = Person.create!(name: "Bar", age: 17)
     relation1 = Person.where(age: 17)
     relation2 = Person.where(name: "Foo")
+
     expect(relation1.intersect_with(relation2)).to eq([seventeen])
   end
 
@@ -32,6 +35,7 @@ describe ActiveRecordFinder::SetOperations do
     seventeen_bar = Person.create!(name: "Bar", age: 17)
     relation1 = Person.where(age: 17)
     relation2 = Person.where(name: "Foo")
+
     expect(relation1.intersect_with(relation2, :age)).to include(seventeen_bar, seventeen)
     expect(relation1.intersect_with(relation2, :age)).not_to include(eighteen)
   end
@@ -39,6 +43,7 @@ describe ActiveRecordFinder::SetOperations do
   it 'SUBTRACTs a relation from this one' do
     relation1 = Person.where(name: "Foo")
     relation2 = Person.where(age: 18)
+
     expect(relation1.subtract(relation2)).to eq([seventeen])
   end
 

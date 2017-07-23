@@ -53,6 +53,7 @@ describe ActiveRecordFinder::Comparator do
   it 'finds with LOWER or UPPER' do
     expect((subject.lower == "foo").arel).to be_equivalent_to table[:name].lower.eq('foo')
     expect((subject.upper == "foo").arel).to be_equivalent_to(
-      Arel::Nodes::NamedFunction.new("UPPER", [table[:name]]).eq('foo'))
+      Arel::Nodes::NamedFunction.new("UPPER", [table[:name]]).eq('foo')
+    )
   end
 end
