@@ -1,5 +1,7 @@
 require "sqlite3"
 require "active_record"
+require "pry"
+require "pry-byebug"
 require_relative "../lib/activerecord_finder"
 
 ActiveRecord::Base.establish_connection(
