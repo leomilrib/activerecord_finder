@@ -36,7 +36,7 @@ module ActiveRecordFinder
         subselect = unscoped.where(primary_key => other)
       else
         if field_other.is_a?(Symbol)
-          field_other = other.scoped.arel_table[field_other]
+          field_other = other.all.arel_table[field_other]
         end
         subselect = unscoped.where(field_self => other.select(field_other))
       end

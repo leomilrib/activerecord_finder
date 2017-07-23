@@ -20,7 +20,7 @@ module ActiveRecordFinder
     alias :to_finder :new_finder
 
     def new_finder_with(*tables, &block)
-      scoped_where = scoped.arel.where_clauses.map { |w| Arel.sql(w) }
+      scoped_where = all.arel.where_sql.map { |w| Arel.sql(w) }
       if block
         finder = create_finder(*tables, &block)
         scoped_where << finder.arel
